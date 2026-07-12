@@ -30,6 +30,17 @@ app.use(rateLimit({
     message: "Too many requests from this IP, please try again after 45 minutes"
 }));    
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/api/health', async (req, res) => {
+    try {
+      // Optional: Add a quick database ping here to ensure it's alive
+      // await db.authenticate(); 
+      
+      res.status(200).json({ status: 'UP', timestamp: new Date() });
+    } catch (error) {
+      res.status(500).json({ status: 'DOWN', error: error.message });
+    }
+  });
+  
 
 app.use ('/auth', authRoute);
 
